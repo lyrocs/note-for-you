@@ -4,72 +4,140 @@ import 'package:note_for_you/bloc/user.bloc.dart';
 
 class LoginPage extends StatefulWidget {
   @override
-  _HomeState createState() => _HomeState();
+  _LoginState createState() => _LoginState();
 }
 
-class _HomeState extends State<LoginPage> {
-  @override
-  Widget build(BuildContext context) {
-    userBloc.init();
-    if (userBloc.token == null && userBloc.isWriter == null) {
-      return SelectLogin();
-    }
-    return Scaffold(
-        body: Center(
-      child: Text('Home'),
-    ));
-  }
-}
-
-
-class SelectLogin extends StatefulWidget {
-  @override
-  _SelectLoginState createState() => _SelectLoginState();
-}
-
-class _SelectLoginState extends State<SelectLogin> {
-  var tokenError = '';
+class _LoginState extends State<LoginPage> {
+  TextEditingController loginController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    double textSize = MediaQuery.of(context).size.width <= 600 ? 14.0 : 20.0;
+    double horizontalSize = MediaQuery.of(context).size.width <= 600
+        ? MediaQuery.of(context).size.width - 75
+        : MediaQuery.of(context).size.width / 3;
+    double separatorSize = MediaQuery.of(context).size.height <= 1200
+        ? MediaQuery.of(context).size.height / 10
+        : MediaQuery.of(context).size.height / 5;
+
     return Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text('Saisisez le token'),
-              Visibility(
-                  visible: tokenError != '',
-                  child: Text(
-                      tokenError,
-                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
-                  )
+        body: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/login-background.jpg"),
+                fit: BoxFit.cover,
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 50),
-                child: TextField(
-                  maxLength: 6,
-                  onChanged: (value) async {
-                    if (value.length == 6) {
-                      var userExist = await userBloc.getUser(value);
-                      if (userExist) {
-                        // Navigator.pushNamed(context, '/note');
-                        Navigator.pushNamed(context, '/note');
-                      } else {
-                        tokenError = 'Token introuvable';
-                        setState(() {});
-                      }
-                    } else {
-                      tokenError = '';
-                      setState(() {});
-                    }
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-    );
+            ),
+            child: Center(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                  Column(
+                    children: [
+                      Container(
+                        width: horizontalSize,
+                        child: Column(
+                          children: [
+                            Text('Signin',
+                                style: TextStyle(fontSize: textSize)),
+                            TextField(
+                                controller: loginController,
+                                decoration: InputDecoration(hintText: 'Email')),
+                            TextField(
+                                obscureText: true,
+                                controller: passwordController,
+                                decoration:
+                                    InputDecoration(hintText: 'Password')),
+                            Padding(padding: EdgeInsets.only(bottom: 15.0)),
+                            SizedBox(
+                                width: horizontalSize,
+                                child: TextButton(
+                                    onPressed: () async {
+                                      try {
+                                        await userBloc.login(
+                                            loginController.text,
+                                            passwordController.text);
+                                      } catch (e) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                          content: Text(e.toString()),
+                                          duration: const Duration(seconds: 5),
+                                          backgroundColor: Colors.red,
+                                        ));
+                                        return;
+                                      }
+                                      if (userBloc.currentUser.isWriter) {
+                                        Navigator.pushNamed(
+                                            context, '/writer/home');
+                                      } else {
+                                        Navigator.pushNamed(
+                                            context, '/reader/home');
+                                      }
+                                    },
+                                    style: ButtonStyle(
+                                        padding: MaterialStateProperty.all<
+                                            EdgeInsets>(EdgeInsets.all(15)),
+                                        foregroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                                Colors.black),
+                                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(18.0),
+                                                side: BorderSide(
+                                                    color: Colors.black)))),
+                                    child: Text('Login',
+                                        style: TextStyle(fontSize: textSize)))),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: separatorSize),
+                        child: Container(
+                          height: 1,
+                          width: MediaQuery.of(context).size.width / 1.5,
+                          color: Colors.black,
+                        ),
+                      ),
+                      Container(
+                          width: horizontalSize,
+                          child: Column(
+                            children: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, '/reader/check-token');
+                                  },
+                                  style: ButtonStyle(
+                                    padding:
+                                        MaterialStateProperty.all<EdgeInsets>(
+                                            EdgeInsets.all(15)),
+                                    foregroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            Colors.black),
+                                  ),
+                                  child: Text('You already have a code',
+                                      style: TextStyle(fontSize: textSize))),
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/subscribe');
+                                  },
+                                  style: ButtonStyle(
+                                    padding:
+                                        MaterialStateProperty.all<EdgeInsets>(
+                                            EdgeInsets.all(15)),
+                                    foregroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            Colors.black),
+                                  ),
+                                  child: Text('Create an account',
+                                      style: TextStyle(fontSize: textSize)))
+                            ],
+                          ))
+                    ],
+                  ),
+                ]))));
   }
 }

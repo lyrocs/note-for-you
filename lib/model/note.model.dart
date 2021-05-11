@@ -1,7 +1,7 @@
 class Note {
-  String text;
-  String date;
-  String token;
+  String text = '';
+  String date = '';
+  String token = '';
 
   Note(aText, aDate, aToken)  {
     text = aText;
