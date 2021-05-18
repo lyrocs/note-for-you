@@ -45,7 +45,7 @@ class _CheckTokenPageState extends State<CheckTokenPage> {
                         var userExist = await userBloc.checkToken(value);
                         if (userExist) {
                           // Navigator.pushNamed(context, '/note');
-                          Navigator.pushNamed(context, '/subscribe');
+                          Navigator.pushNamed(context, '/signup');
                         } else {
                           tokenError = 'Token not found';
                           setState(() {});

@@ -2,21 +2,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:note_for_you/bloc/user.bloc.dart';
 
-class SubscribePage extends StatefulWidget {
+class SignUpPage extends StatefulWidget {
   @override
-  _SubscribeState createState() => _SubscribeState();
+  _SignUpState createState() => _SignUpState();
 }
 
-class _SubscribeState extends State<SubscribePage> {
+class _SignUpState extends State<SignUpPage> {
+  TextEditingController loginController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     double textSize = MediaQuery.of(context).size.width <= 600 ? 14.0 : 20.0;
     double horizontalSize = MediaQuery.of(context).size.width <= 600
         ? MediaQuery.of(context).size.width - 75
         : MediaQuery.of(context).size.width / 3;
-
-    TextEditingController loginController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
 
     return Scaffold(
         body: Container(

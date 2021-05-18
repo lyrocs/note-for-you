@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:note_for_you/bloc/user.bloc.dart';
 
-class LoginPage extends StatefulWidget {
+class SignInPage extends StatefulWidget {
   @override
-  _LoginState createState() => _LoginState();
+  _SignInState createState() => _SignInState();
 }
 
-class _LoginState extends State<LoginPage> {
+class _SignInState extends State<SignInPage> {
   TextEditingController loginController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -107,22 +107,7 @@ class _LoginState extends State<LoginPage> {
                             children: [
                               TextButton(
                                   onPressed: () {
-                                    Navigator.pushNamed(
-                                        context, '/reader/check-token');
-                                  },
-                                  style: ButtonStyle(
-                                    padding:
-                                        MaterialStateProperty.all<EdgeInsets>(
-                                            EdgeInsets.all(15)),
-                                    foregroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            Colors.black),
-                                  ),
-                                  child: Text('You already have a code',
-                                      style: TextStyle(fontSize: textSize))),
-                              TextButton(
-                                  onPressed: () {
-                                    Navigator.pushNamed(context, '/subscribe');
+                                    Navigator.pushNamed(context, '/signup/choice');
                                   },
                                   style: ButtonStyle(
                                     padding:

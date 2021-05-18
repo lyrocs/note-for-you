@@ -46,7 +46,7 @@ buildMenu(context) {
                     ),
                     onPressed: () async {
                       await userBloc.logout();
-                      Navigator.pushNamed(context, '/login');
+                      Navigator.pushNamed(context, '/signin');
                     },
                   ),
                 ),

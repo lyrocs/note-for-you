@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:note_for_you/bloc/note.bloc.dart';
 import 'package:note_for_you/bloc/user.bloc.dart';
+
+
 
 class LoadingPage extends StatefulWidget {
   @override
   _LoadingPageState createState() => _LoadingPageState();
 }
 
+
 class _LoadingPageState extends State<LoadingPage> {
-  final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
   TextEditingController textController = TextEditingController();
 
   initValues() {
@@ -25,20 +25,31 @@ class _LoadingPageState extends State<LoadingPage> {
         }
       } else {
         Navigator.pushNamed(
-            context, '/login');
+            context, '/signin');
       }
     });
   }
 
   @override
   void initState() {
-    initValues();
     super.initState();
+    initValues();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
 
-    return Center(child: CircularProgressIndicator());
+    return Center(child:
+      Column(
+        children: [
+          CircularProgressIndicator(),
+        ],
+      )
+    );
   }
+
+
+
 }
