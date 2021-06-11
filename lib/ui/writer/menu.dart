@@ -31,7 +31,7 @@ buildMenu(context) {
       child: Container(
         padding: const EdgeInsets.only(left: 16.0, right: 40),
         decoration: BoxDecoration(
-            color: primary, boxShadow: [BoxShadow(color: Colors.black45)]),
+            color: Color(0xff03657f), boxShadow: [BoxShadow(color: Colors.black45)]),
         width: 300,
         child: SafeArea(
           child: SingleChildScrollView(
@@ -50,17 +50,17 @@ buildMenu(context) {
                     },
                   ),
                 ),
-                Container(
-                  height: 90,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: LinearGradient(
-                          colors: [Colors.pink, Colors.deepPurple])),
-                  child: CircleAvatar(
-                    radius: 40,
-                  ),
-                ),
+                // Container(
+                //   height: 90,
+                //   alignment: Alignment.center,
+                //   decoration: BoxDecoration(
+                //       shape: BoxShape.circle,
+                //       gradient: LinearGradient(
+                //           colors: [Colors.pink, Colors.deepPurple])),
+                //   child: CircleAvatar(
+                //     radius: 40,
+                //   ),
+                // ),
                 SizedBox(height: 5.0),
                 Text(
                   'Your token :',

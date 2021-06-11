@@ -15,7 +15,6 @@ class _NoteListState extends State<NoteListPage> {
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
-    CollectionReference notes = FirebaseFirestore.instance.collection('notes');
 
     return Scaffold(
       key: _key,
@@ -23,7 +22,7 @@ class _NoteListState extends State<NoteListPage> {
       appBar: AppBar(
         title: Text('Note writer'),
         automaticallyImplyLeading: false,
-        backgroundColor: Color(0xff000931),
+        backgroundColor: Color(0xff56c7e3),
         leading: IconButton(
           icon: Icon(Icons.menu),
           onPressed: () {
@@ -33,10 +32,7 @@ class _NoteListState extends State<NoteListPage> {
       ),
       drawer: buildMenu(context),
       body: StreamBuilder(
-          stream: notes
-              .where('token', isEqualTo: userBloc.currentUser.token)
-              .orderBy('date', descending: true)
-              .snapshots(),
+          stream: noteBloc.getNotesSnapshot(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasError) {
               return Center( child: Text('Something went wrong'));
@@ -67,6 +63,7 @@ ListView _buildNoteList(
     children: snapshot.data!.docs.map((DocumentSnapshot document) {
       return new Card(
         child: ListTile(
+          leading: document.get('isRead') == true ? Icon(Icons.check): Text(''),
           title: Text(document.get('text')),
           subtitle: Text(DateFormat('d LLLL y')
               .format(DateTime.parse(document.get('date')))

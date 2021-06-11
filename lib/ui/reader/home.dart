@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:note_for_you/bloc/note.bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'menu.dart';
 
 class HomeReaderPage extends StatefulWidget {
@@ -39,13 +40,14 @@ class _HomeReaderState extends State<HomeReaderPage> {
     double paddingBottom =
         MediaQuery.of(context).size.width <= 600 ? 70.0 : 50.0;
 
-    noteBloc.getByDate(DateTime.now().toString().substring(0, 10));
+    noteBloc.readDayNote(DateTime.now().toString().substring(0, 10));
     return Scaffold(
         key: _key,
         appBar: AppBar(
-          title: Text('Note writer'),
+          title: Text('Your daily note'),
+
           automaticallyImplyLeading: false,
-          backgroundColor: Color(0xff000931),
+          backgroundColor: Color(0xff56c7e3),
           leading: IconButton(
             icon: Icon(Icons.menu),
             onPressed: () {
@@ -67,7 +69,7 @@ class _HomeReaderState extends State<HomeReaderPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Padding(padding: EdgeInsets.all(paddingDate)),
+                Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.14)),
                 Text(today, style: TextStyle(fontSize: textSize)),
                 Spacer(),
                 Padding(
@@ -75,7 +77,7 @@ class _HomeReaderState extends State<HomeReaderPage> {
                     child: Text(textNote,
                         style: TextStyle(fontSize: textSize),
                         textAlign: TextAlign.center)),
-                Padding(padding: EdgeInsets.all(paddingBottom)),
+                Padding(padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.12)),
               ]),
         ));
   }

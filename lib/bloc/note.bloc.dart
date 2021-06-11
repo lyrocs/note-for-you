@@ -7,18 +7,22 @@ class NoteBloc {
   CollectionReference notesCollection =
       FirebaseFirestore.instance.collection('notes');
 
-  Note _currentNote = Note('', '', '');
+  Note _currentNote = Note('', '', '', '', false);
   Note get currentNote => _currentNote;
 
-  getNotes() async {
-    var notesRequest = await notesCollection
-        .where('token', isEqualTo: userBloc.currentUser.token)
-        .get();
-    List<Note> noteList = [];
-    notesRequest.docs.forEach((element) {
-      noteList.add(
-          Note(element.get('text'), element.get('date'), element.get('token')));
-    });
+  getNotesSnapshot() {
+    return notesCollection.where('token', isEqualTo: userBloc.currentUser.token)
+        .orderBy('date', descending: true)
+        .snapshots();
+  }
+
+  readDayNote(date) async {
+    await getByDate(date);
+    if (_currentNote.id != '') {
+      await notesCollection
+          .doc(_currentNote.id)
+          .update({'isRead': true});
+    }
   }
 
   getByDate(date) async {
@@ -30,9 +34,11 @@ class NoteBloc {
         .get();
     if (notesRequest.size != 0) {
       Note aNote = Note(
+          notesRequest.docs.first.id,
           notesRequest.docs.first.get('text'),
           notesRequest.docs.first.get('date'),
-          notesRequest.docs.first.get('token'));
+          notesRequest.docs.first.get('token'),
+          false);
       _currentNote = aNote;
     }
   }
@@ -50,7 +56,8 @@ class NoteBloc {
       await notesCollection.add({
         'token': userBloc.currentUser.token,
         'text': currentNote.text,
-        'date': cursorDate
+        'date': cursorDate,
+        'isRead': false,
       });
     }
   }

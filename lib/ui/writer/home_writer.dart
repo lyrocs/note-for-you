@@ -22,7 +22,7 @@ class _HomeWriterState extends State<HomeWriterPage> {
         appBar: AppBar(
           title: Text('Note writer'),
           automaticallyImplyLeading: false,
-          backgroundColor: Color(0xff000931),
+          backgroundColor: Color(0xff56c7e3),
           leading: IconButton(
             icon: Icon(Icons.menu),
             onPressed: () {

@@ -21,17 +21,18 @@ class OvalRightBorderClipper extends CustomClipper<Path> {
   }
 }
 
-final Color primary = Color(0xff000931);
+final Color primary = Color(0xff56c7e3);
 final Color active = Color(0xffffc107);
 
 buildMenu(context) {
   return ClipPath(
     clipper: OvalRightBorderClipper(),
+
     child: Drawer(
       child: Container(
         padding: const EdgeInsets.only(left: 16.0, right: 40),
         decoration: BoxDecoration(
-            color: primary, boxShadow: [BoxShadow(color: Colors.black45)]),
+            color: Color(0xff03657f), boxShadow: [BoxShadow(color: Colors.black45)]),
         width: 300,
         child: SafeArea(
           child: SingleChildScrollView(
@@ -50,17 +51,17 @@ buildMenu(context) {
                     },
                   ),
                 ),
-                Container(
-                  height: 90,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: LinearGradient(
-                          colors: [Colors.pink, Colors.deepPurple])),
-                  child: CircleAvatar(
-                    radius: 40,
-                  ),
-                ),
+                // Container(
+                //   height: 90,
+                //   alignment: Alignment.center,
+                //   decoration: BoxDecoration(
+                //       shape: BoxShape.circle,
+                //       gradient: LinearGradient(
+                //           colors: [Colors.red, Colors.green])),
+                //   child: CircleAvatar(
+                //     radius: 40,
+                //   ),
+                // ),
                 SizedBox(height: 5.0),
                 Text(
                   'Your token :',
